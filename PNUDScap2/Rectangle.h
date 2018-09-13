@@ -44,7 +44,7 @@ int Rectangle::GetWidth() { return width; }
 
 ostream& operator<<(ostream& os, Rectangle& r)
 {
-	os << "Position is: " << r.xLow << "";
+	os << "Position is: " << r.xLow << " ";
 	os << r.yLow << endl;
 	os << "Height is: " << r.height << endl;
 	os << "Width is: " << r.width << endl;

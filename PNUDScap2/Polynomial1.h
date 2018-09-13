@@ -35,7 +35,6 @@ public:
 	};
 
 	Polynomial Add(Polynomial poly);
-	// return the sum of the polynomial \(**\fBthis\fR and @poly@
 
 	void NewTerm(float, int);
 
@@ -47,7 +46,7 @@ private:
 	static int free;
 	int Start, Finish;
 
-}; // end of \fIPolynomial\fR
+};
 
 term Polynomial::termArray[MaxTerms];
 int Polynomial::free = 0;
@@ -65,14 +64,12 @@ void Polynomial::Init()
 
 void Polynomial::Output()
 {
-	cout << "----------------------------" << endl;
 	cout <<"\t" << "Coef" << "\t" << "Exp" << endl;
 	for (int i = 0; i < free; i++)
 		cout << "\t" << termArray[i].coef << "\t" << termArray[i].exp << endl;
 }
 
 void Polynomial::NewTerm(float c, int e)
-//Add a new term to @C(x)@.
 {
 	if (free > MaxTerms) {
 		cout << "Too many terms in polynomials" << endl;
@@ -81,14 +78,17 @@ void Polynomial::NewTerm(float c, int e)
 	termArray[free].coef = c;
 	termArray[free].exp = e;
 	free++;
-} // end of @NewTerm@
-
-
+} 
 
 Polynomial Polynomial::Add(Polynomial B)
 {
-	Polynomial C; int a = Start; int b = B.Start; C.Start = free;
+	int a = Start; 
+	int b = B.Start; 
+
+	Polynomial C;
+	C.Start = free;
 	float c;
+
 	while ((a <= Finish) && (b <= B.Finish))
 		switch (compare(termArray[a].exp, termArray[b].exp)) {
 		case '=':

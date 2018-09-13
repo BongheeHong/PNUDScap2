@@ -26,17 +26,18 @@ private:
 
 class Polynomial {
 public:
-	Polynomial();
 	//construct the polynomial p(x) = 0;
+	Polynomial();
+	
 
-	Polynomial Add(Polynomial b);
 	//return the sum of the polynomials *this and b
-
-	//Polynomial Mult(Polynomial b);
+	Polynomial Add(Polynomial b);
+	
 	//return the product of the polynomials *this and b
-
-	//float Eval(float f);
+	//Polynomial Mult(Polynomial b);
+	
 	//evaluate the polynomial *this at f and return the result
+	//float Eval(float f);
 
 	void NewTerm(const float theCoeff, const int theExp);
 	int Display();
@@ -48,12 +49,14 @@ private:
 	int start, finish;
 	int terms;
 };
+
 Polynomial::Polynomial()
 {
 	start = -1;
 	finish = -1;
 	terms = 0;
 }
+
 int Polynomial::Display() {
 	int aPos = start;
 	for (; aPos <= finish; aPos++) {

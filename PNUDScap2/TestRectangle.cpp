@@ -12,6 +12,6 @@ void main()
 		cout << r;
 	else
 		cout << s;
-	cout << " has the greater area" << endl;
+	cout << "it has the greater area" << endl;
 	getchar();
 }

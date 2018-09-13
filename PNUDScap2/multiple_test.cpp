@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void print(int tab[][COLS], int rows, int cols)
+void print(int (*tab)[COLS], int rows, int cols)
 {
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
@@ -17,7 +17,7 @@ void print(int tab[][COLS], int rows, int cols)
 }
 
 //Program 1.34: square matrix multi
-void Multiply(const int in1[][COLS], const int in2[][COLS], int out[][COLS], int actualSize)
+void Multiply(const int (*in1)[COLS], const int (*in2)[COLS], int (*out)[COLS], int actualSize)
 {
 	for (int i = 0; i < actualSize; i++)
 		for (int j = 0; j < actualSize; j++)
