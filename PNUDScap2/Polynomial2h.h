@@ -5,7 +5,7 @@
 //program 2.8 Adding two polynomials
 //program 2.9 Adding a new term
 //ADT 2.3 Polynomial
-// ´ÙÇ×½ÄÀÇ add, sub, mult, eval ÄÚµùÇÏ±â
+// ë‹¤í•­ì‹ì˜ add, sub, mult, eval ì½”ë”©í•˜ê¸°
 
 #include <vector>
 #include <algorithm>
@@ -102,7 +102,7 @@ int Polynomial::GetData() {
 }
 
 //program 2.8: Adding two polynomials
-//±³Àç 91 ÆäÀÌÁö ³»¿ë°ú ´Ù¸¥ ÄÚµå È®ÀÎÇÏ±â
+//êµì¬ 91 í˜ì´ì§€ ë‚´ìš©ê³¼ ë‹¤ë¥¸ ì½”ë“œ í™•ì¸í•˜ê¸°
 Polynomial Polynomial::Add(Polynomial b)
 {
 	Polynomial c;
@@ -125,9 +125,9 @@ Polynomial Polynomial::Add(Polynomial b)
 			c.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
 			aPos++;
 		}
-	for (; aPos < finish; aPos++)
+	for (; aPos <= finish; aPos++)
 		c.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
-	for (; bPos < b.finish; bPos++)
+	for (; bPos <= b.finish; bPos++)
 		c.NewTerm(b.termArray[bPos].coef, b.termArray[bPos].exp);
 	c.finish = free - 1;
 	return c;
