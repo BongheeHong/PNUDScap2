@@ -13,7 +13,7 @@ void main()
 
 	//cout << "----------------------------" << endl;
 	//std::cout << "Polynomial (b): " << std::endl;
-	b.Output();
+	//b.Output();
 
 
 	Polynomial c = a.Add(b);
