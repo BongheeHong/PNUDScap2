@@ -11,20 +11,20 @@ void main()
 	std::cout << "Polynomial (a): " << std::endl;
 	a.Output();
 
-	cout << "----------------------------" << endl;
-	std::cout << "Polynomial (b): " << std::endl;
+	//cout << "----------------------------" << endl;
+	//std::cout << "Polynomial (b): " << std::endl;
 	b.Output();
 
 
 	Polynomial c = a.Add(b);
 	cout << "----------------------------" << endl;
 	std::cout << "Polynomial (a+b = c): " << std::endl;
-	a.Output();
+	c.Output();
 
 	cout << "----------------------------" << endl;
 	std::cout << "Polynomial (a+c): " << std::endl;
-	a.Add(c);
-	a.Output();
+	Polynomial d = a.Add(c);
+	d.Output();
 
 	system("pause");
 }
