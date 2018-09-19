@@ -1,3 +1,6 @@
-﻿  TestSparseMatrix.cpp
+﻿  TestPolynomial2.cpp
+c:\users\user\documents\github\pnudscap2\pnudscap2\polynomial2h.h : warning C4819: The file contains a character that cannot be represented in the current code page (949). Save the file in Unicode format to prevent data loss
+c:\users\user\documents\github\pnudscap2\pnudscap2\polynomial2h.h(194): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\user\documents\github\pnudscap2\pnudscap2\polynomial2h.h(195): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   PNUDScap2.vcxproj -> C:\Users\USER\Documents\GitHub\PNUDScap2\Debug\PNUDScap2.exe
   PNUDScap2.vcxproj -> C:\Users\USER\Documents\GitHub\PNUDScap2\Debug\PNUDScap2.pdb (Partial PDB)

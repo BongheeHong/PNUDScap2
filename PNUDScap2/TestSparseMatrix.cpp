@@ -44,7 +44,7 @@ void main()
 	b.OutputToMatrice();
 	cout << "---c---" << endl;
 	c.OutputToMatrice();
-	cout <<endl << "add result:" << endl;
+	cout <<endl << "---result---" << endl;
 	SparseMatrix d = b.Add(c);
 	d.OutputToMatrice();
 

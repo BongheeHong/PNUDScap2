@@ -33,7 +33,7 @@
     <ClCompile Include="TestSparseMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SparseMatrixTest2.cpp">
+    <ClCompile Include="SparseMatrixTest2_template.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

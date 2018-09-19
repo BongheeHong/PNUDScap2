@@ -27,6 +27,7 @@ class SparseMatrix
 public:
 	SparseMatrix() {}
 	SparseMatrix(int rows, int cols):Rows(rows), Cols(cols) {};
+	~SparseMatrix() {}
 
 	SparseMatrix Transpose();
 	SparseMatrix FastTranspose();
@@ -35,11 +36,8 @@ public:
 
 	SparseMatrix Multiply(SparseMatrix b);
 
-	SparseMatrix EmptyMatrix(){
-		SparseMatrix *sm = new SparseMatrix;
-		sm->Rows = sm->Cols = sm->Terms = 0;
-		return *sm;
-	}
+	//create an empty matrix
+	SparseMatrix EmptyMatrix();
 
 	int StoreSum(int, int&, int, int);
 	void Output();
@@ -47,20 +45,13 @@ public:
 	void Init(int*);
 	void Init2(int*);
 	void Init3(int*);
+	//add a new Term to the SparseMatrix
 	void addElement(int row, int col, int value);
 private:
 	int Rows, Cols, Terms = 0;
 	MatrixTerm smArray[MaxTerms];
 
 };
-
-
-void SparseMatrix::Output()
-{
-	cout << "\trow" << "\tcol" << "\tvalue" << endl;
-	for (int i = 0; i < Terms; i++)
-		cout << "\t" << smArray[i].row << "\t" << smArray[i].col << "\t" << smArray[i].value << endl;
-}
 
 
 void SparseMatrix::Init(int *a)
@@ -239,8 +230,14 @@ SparseMatrix SparseMatrix::Multiply(SparseMatrix b)
 	return d;
 } // of Multiply
 
+void SparseMatrix::Output()
+{
+	cout << "\trow" << "\tcol" << "\tvalue" << endl;
+	for (int i = 0; i < Terms; i++)
+		cout << "\t" << smArray[i].row << "\t" << smArray[i].col << "\t" << smArray[i].value << endl;
+}
 
-
+//display matrix as a shape of a matrice.
 void SparseMatrix::OutputToMatrice() const {
 	int ** tempArr = new int*[Rows];
 	for (int i = 0; i < Rows; i++) {
@@ -253,18 +250,18 @@ void SparseMatrix::OutputToMatrice() const {
 			tempArr[i][j] = 0;
 		}
 	}
-
+	//set values in tempArr
 	for (int i = 0; i < this->Terms; i++) {
 		tempArr[smArray[i].row][smArray[i].col] = smArray[i].value;
 	}
-
+	//print out
 	for (int i = 0; i < Rows; i++) {
 		for (int j = 0; j < Cols; j++) {
 			cout << tempArr[i][j] << " ";
 		}
 		cout << endl;
 	}
-
+	//release heap memory
 	for (int i = 0; i < Rows; i++) {
 		delete[] tempArr[i];
 	}
@@ -272,6 +269,8 @@ void SparseMatrix::OutputToMatrice() const {
 	tempArr = nullptr;
 
 }
+
+//add a new Term to the SparseMatrix
 void SparseMatrix::addElement(int row, int col, int value) {
 	if (Terms > MaxTerms) throw runtime_error("terms > maxTerms");
 
@@ -291,7 +290,7 @@ void SparseMatrix::addElement(int row, int col, int value) {
 //1       0       1
 //1       3       3
 //2       2       1
-//the data is sorted by row first and then sorted by col.
+//the data is sorted by row first and then sorted by col in ascending order.
 SparseMatrix SparseMatrix::Add(SparseMatrix b) const {
 	if (this->Rows != b.Rows || this->Cols != b.Cols) 
 		throw runtime_error("a.rows != b.rows or a.cols != b.cols");
@@ -329,4 +328,11 @@ SparseMatrix SparseMatrix::Add(SparseMatrix b) const {
 	}
 
 	return result;
+}
+
+
+SparseMatrix SparseMatrix::EmptyMatrix() {
+	SparseMatrix *sm = new SparseMatrix;
+	sm->Rows = sm->Cols = sm->Terms = 0;
+	return *sm;
 }

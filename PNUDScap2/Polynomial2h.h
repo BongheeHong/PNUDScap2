@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <iostream>
 #include <stdlib.h>
+#include <exception>
 
 using namespace std;
 
@@ -19,6 +20,8 @@ class Polynomial;
 class Term
 {
 	friend Polynomial;
+	Term() {}
+	Term(float c, int e):coef(c), exp(e) {}
 private:
 	float coef;
 	int exp;
@@ -33,8 +36,10 @@ public:
 	//return the sum of the polynomials *this and b
 	Polynomial Add(Polynomial b);
 	
+	Polynomial Sub(Polynomial b);
+
 	//return the product of the polynomials *this and b
-	//Polynomial Mult(Polynomial b);
+	Polynomial Multiply(Polynomial b);
 	
 	//evaluate the polynomial *this at f and return the result
 	//float Eval(float f);
@@ -48,6 +53,10 @@ private:
 	static int free;
 	int start, finish;
 	int terms;
+
+	void addTermToArrSortedDeduplicateByExponent(Term * termArr, int &termArrSize, Term & t);
+
+	void NewTerm(const Term & t);
 };
 
 Polynomial::Polynomial()
@@ -67,6 +76,11 @@ int Polynomial::Display() {
 	cout << "\n";
 	return 0;
 }
+
+void Polynomial::NewTerm(const Term & t) {
+	NewTerm(t.coef, t.exp);
+}
+
 //Program 2.9: Adding a new term
 void Polynomial::NewTerm(const float theCoeff, const int theExp)
 {
@@ -81,6 +95,8 @@ void Polynomial::NewTerm(const float theCoeff, const int theExp)
 	termArray[free].coef = theCoeff;
 	termArray[free++].exp = theExp;
 }
+
+
 
 int Polynomial::GetData() {
 	int i, degree;
@@ -131,4 +147,108 @@ Polynomial Polynomial::Add(Polynomial b)
 		c.NewTerm(b.termArray[bPos].coef, b.termArray[bPos].exp);
 	c.finish = free - 1;
 	return c;
+}
+
+
+Polynomial Polynomial::Sub(Polynomial b) {
+	Polynomial c;
+	int aPos = start, bPos = b.start;
+	c.start = free;
+	while ((aPos <= finish) && (bPos <= b.finish))
+		if ((termArray[aPos].exp == b.termArray[bPos].exp))
+		{
+			float t = termArray[aPos].coef - b.termArray[bPos].coef;
+			if (t) c.NewTerm(t, termArray[aPos].exp);
+			aPos++; bPos++;
+		}
+		else if ((termArray[aPos].exp < b.termArray[bPos].exp))
+		{
+			c.NewTerm(-b.termArray[bPos].coef, b.termArray[bPos].exp);
+			bPos++;
+		}
+		else
+		{
+			c.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
+			aPos++;
+		}
+	for (; aPos <= finish; aPos++)
+		c.NewTerm(termArray[aPos].coef, termArray[aPos].exp);
+	for (; bPos <= b.finish; bPos++)
+		c.NewTerm(b.termArray[bPos].coef, b.termArray[bPos].exp);
+	c.finish = free - 1;
+	return c;
+}
+
+Polynomial Polynomial::Multiply(Polynomial b) {
+	if (terms == 0 || b.terms == 0) throw runtime_error("terms size = 0");
+
+	Polynomial result;
+	result.start = free;
+	//store multiply result temporarily. 
+	Term * tmpArr = new Term[terms*b.terms];
+	int arrSize = 0;//the size of the array above.
+
+	for (int i = start; i <= finish; i++) {
+		for (int k = b.start; k <= b.finish; k++) {
+			float newCoef = termArray[i].coef * b.termArray[k].coef;
+			float newExp = termArray[i].exp + b.termArray[k].exp;
+			Term t(newCoef, newExp);
+			addTermToArrSortedDeduplicateByExponent(tmpArr, arrSize, t);
+		}
+	}
+
+	for (int i = 0; i < arrSize; i++) {
+		result.NewTerm(tmpArr[i]);
+	}
+	result.finish = free - 1;
+	result.terms = result.finish - result.start + 1;
+
+	delete[] tmpArr;
+	return result;
+}
+
+//the term in termArr is in the descending order by exponent. 
+//if tow term have same exponent, combine them. else, insert the new term.
+void Polynomial::addTermToArrSortedDeduplicateByExponent(Term * termArr, int & termArrSize, Term & t) {
+	if (termArrSize == 0) {
+		termArr[termArrSize++] = t;
+		return;
+	}
+	//if the exponent of the last term is equal to t.exp
+	if (termArr[termArrSize - 1].exp == t.exp) { 
+		termArr[termArrSize - 1].coef += t.coef;
+		return;
+	}
+	//if the exponent of the last term is greater than t.exp
+	if (termArr[termArrSize - 1].exp > t.exp) {
+		termArr[termArrSize] = t;
+		termArrSize++;
+		return;
+	}
+
+	int i = termArrSize - 1;
+	//if true, the input term has the same exponent as the term in the array,
+	//don't need to increase "termArrSize", i.e, the size of "termArr". Just combine the two terms.
+	bool isExpEqual = false;
+	for (; i >= 0; i--) {//search the proper place.(index)
+		if (termArr[i].exp == t.exp) {
+			isExpEqual = true;
+			break;
+		}
+		if (termArr[i].exp > t.exp) {
+			break;
+		}
+	}
+	if (isExpEqual) {
+		termArr[i].coef += t.coef;//combine the two terms.
+	}
+	else {
+		int j = termArrSize - 1;
+		//move back one step to make room for the input term
+		for (; j > i; j--) {
+			termArr[j + 1] = termArr[j];
+		}
+		termArr[j] = t;
+		termArrSize++;
+	}
 }

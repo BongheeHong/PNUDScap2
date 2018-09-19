@@ -11,12 +11,12 @@ int Polynomial::free = 0;
 int main(void) {
 	int choice;
 
-
 	Polynomial P1, P2, P3;
-	cout << "Instruction:- \nExample:-\nP(x)=5x^3+3x^1\nEnter the Polynomial like\nP(x)=5x^3+0x^2+3x^1+0x^0\n";
-	cout << "Enter Polynomial1:-" << endl;
+	cout << "Instruction:-Enter the Polynomial like\nP(x)=5x^3+0x^2+3x^1+0x^0\n";
+	cout << "error input: 1x^2+1x^3, because input exponents should be in descending order\n" << endl;
+	cout << "Enter Polynomial1:- (input exponents in descending order)" << endl;
 	P1.GetData();
-	cout << "Enter Polynomial2:-" << endl;
+	cout << "Enter Polynomial2:- (input exponents in descending order)" << endl;
 	P2.GetData();
 
 	while (1) {
@@ -42,7 +42,8 @@ int main(void) {
 			P1.Display();
 			cout << "Polynomial2:";
 			P2.Display();
-			//P3.Substract(P1, P2);
+			P3 = P1.Sub(P2);
+			P3.Display();
 			cout << "----------------------------------------\n";
 			break;
 		case 3:
@@ -51,7 +52,8 @@ int main(void) {
 			P1.Display();
 			cout << "Polynomial2:";
 			P2.Display();
-			//P3.Multiply(P1, P2);
+			P3 = P1.Multiply(P2);
+			P3.Display();
 			cout << "----------------------------------------\n";
 			break;
 		case 0:
